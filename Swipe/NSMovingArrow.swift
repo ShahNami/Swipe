@@ -24,32 +24,34 @@ class NSMovingArrow: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func hasCollided(maxX: CGFloat, maxY: CGFloat ) -> Bool {
+        return (self.position.x < -20 || self.position.y < -20 || self.position.x > (maxX+20) || self.position.y > (maxY+20))
+    }
     
-    
-    func start(direction: Int, maxX: Float, maxY: Float){
+    func start(direction: Int, maxX: CGFloat, maxY: CGFloat, duration: Double) {
         var moveDir: SKAction
         var resetPosition: SKAction
         
         switch(direction){
         case 0: //Up
-            moveDir = SKAction.moveToY(CGFloat(maxY+30) - self.position.y, duration: 3.0)
-            resetPosition = SKAction.moveToY(-10, duration: 0)
+            moveDir = SKAction.moveToY((maxY+30) - self.position.y, duration: duration)
+            resetPosition = SKAction.moveToY(-50, duration: 0)
             break;
         case 1: //Right
-            moveDir = SKAction.moveToX(CGFloat(maxX+30) - self.position.x, duration: 1.5)
-            resetPosition = SKAction.moveToX(-30, duration: 0)
+            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration/1.7)
+            resetPosition = SKAction.moveToX(-50, duration: 0)
             break;
         case 2: //Left
-            moveDir = SKAction.moveToX(-CGFloat(maxX+30) + self.position.x, duration: 1.5)
-            resetPosition = SKAction.moveToX(CGFloat(maxX)+30, duration: 0)
+            moveDir = SKAction.moveToX(-(maxX+30) + self.position.x, duration: duration/1.7)
+            resetPosition = SKAction.moveToX(CGFloat(maxX)+50, duration: 0)
             break;
         case 3: //Down
-            moveDir = SKAction.moveToY(-CGFloat(maxY+30) + self.position.y, duration: 3.0)
-            resetPosition = SKAction.moveToY(CGFloat(maxY)+10, duration: 0)
+            moveDir = SKAction.moveToY(-(maxY+30) + self.position.y, duration: duration)
+            resetPosition = SKAction.moveToY(CGFloat(maxY)+50, duration: 0)
             break;
         default: //Right
-            moveDir = SKAction.moveToX(CGFloat(maxX+30) - self.position.x, duration: 1.5)
-            resetPosition = SKAction.moveToX(-10, duration: 0)
+            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration/1.7)
+            resetPosition = SKAction.moveToX(-50, duration: 0)
             break;
         }
         
@@ -57,5 +59,4 @@ class NSMovingArrow: SKSpriteNode {
         let moveSequence = SKAction.sequence([moveDir, resetPosition])
         runAction(SKAction.repeatActionForever(moveSequence))
     }
-    
 }

@@ -17,12 +17,11 @@ class GameScene: SKScene {
     var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
     var scoreLabel:SKLabelNode!
     var highscoreLabel:SKLabelNode!
-    var timerLabel:SKLabelNode!
-    var tapToStart:SKLabelNode!
-    var count = 5
+    let tapToStart = SKLabelNode(fontNamed: "DIN Condensed")
+    let instruction1 = SKSpriteNode(imageNamed: "WhiteSwipe.png")
+    let instruction2 = SKSpriteNode(imageNamed: "RedSwipe.png")
     var arrowObject: NSMovingArrow!
     var gameOver = false
-    var timer: NSTimer!
     
     
     func endGame(){
@@ -91,12 +90,6 @@ class GameScene: SKScene {
     
     func setScore(){
         currentScore += 1
-        
-        count = calcCountForScore()
-        timer.invalidate()
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(GameScene.countDown), userInfo: nil, repeats: true)
-        timerLabel.text = "\(getCount())"
-        
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let hs = userDefaults.valueForKey("highscore") {
             if(currentScore > hs as! Int){
@@ -113,26 +106,18 @@ class GameScene: SKScene {
         highscoreLabel.text = "\(highscore)"
     }
     
-    func countDown(){
-        if(count > 0) {
-            count -= 1
-            timerLabel.text = getCount()
-        } else {
-            endGame()
-        }
-    }
     
-    func calcCountForScore() -> Int{
+    func calcSpeedForScore() -> Double{
         if(currentScore < 10){
-            return 5
+            return 3.5
+        } else if(currentScore < 25) {
+            return 2.5
         } else if(currentScore < 50) {
-            return 4
+            return 2.0
         } else if(currentScore < 100) {
-            return 3
-        } else if(currentScore < 200) {
-            return 2
+            return 1.5
         } else {
-            return 1
+            return 1.0
         }
     }
     
@@ -183,29 +168,25 @@ class GameScene: SKScene {
         
         arrowObject.position = startPoint
         addChild(arrowObject)
-        arrowObject.start(dirNum, maxX: Float(self.frame.size.width), maxY: Float(self.frame.size.height))
+        arrowObject.start(dirNum, maxX: self.frame.size.width, maxY: self.frame.size.height, duration: calcSpeedForScore())
     }
     
-    func getCount() -> String{
-        var toReturn = ""
-        for _ in (0..<count) {
-            toReturn += "|"
-        }
-        return toReturn
-    }
     
     override func didMoveToView(view: SKView) {
+        instruction1.position = CGPointMake((view.center.x / 2), 150)
+        instruction1.size.width = 100
+        instruction1.size.height = 100
+        addChild(instruction1)
+        
+        instruction2.position = CGPointMake(view.center.x + (view.center.x / 2), 150)
+        instruction2.size.width = 100
+        instruction2.size.height = 100
+        addChild(instruction2)
         
         //let appDomain = NSBundle.mainBundle().bundleIdentifier!
         //NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
         
         backgroundColor = UIColor(red: 44/255.0, green: 62/255.0, blue: 80/255.0, alpha: 1)
-        
-        timerLabel = SKLabelNode(fontNamed: "DIN Condensed")
-        timerLabel.text = "\(getCount())"
-        timerLabel.fontSize = 30
-        timerLabel.position = CGPointMake(view.center.x, self.frame.size.height - 40)
-        addChild(timerLabel)
         
         scoreLabel = SKLabelNode(fontNamed: "DIN Condensed")
         scoreLabel.text = "\(currentScore)"
@@ -221,10 +202,10 @@ class GameScene: SKScene {
         
         addChild(highscoreLabel)
 
-        tapToStart = SKLabelNode(fontNamed: "DIN Condensed")
+        
         tapToStart.text = "Tap to start"
         tapToStart.fontSize = 40
-        tapToStart.position = CGPointMake(view.center.x, view.center.y)
+        tapToStart.position = CGPointMake(view.center.x, view.center.y + 50)
         tapToStart.name = "taptostart"
         addChild(tapToStart)
 
@@ -256,8 +237,17 @@ class GameScene: SKScene {
        /* Called when a touch begins */
         if(tapToStart.inParentHierarchy(self)){
             tapToStart.removeFromParent()
+            instruction1.removeFromParent()
+            instruction2.removeFromParent()
             newArrow()
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(GameScene.countDown), userInfo: nil, repeats: true)
+            _ =  NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GameScene.checkCollision), userInfo: nil, repeats: true)
+            
+        }
+    }
+    
+    func checkCollision(){
+        if(arrowObject.hasCollided(self.frame.size.width, maxY: self.frame.size.height)){
+            endGame()
         }
     }
    
