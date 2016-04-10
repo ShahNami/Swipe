@@ -108,17 +108,7 @@ class GameScene: SKScene {
     
     
     func calcSpeedForScore() -> Double{
-        if(currentScore < 10){
-            return 3.5
-        } else if(currentScore < 25) {
-            return 2.5
-        } else if(currentScore < 50) {
-            return 2.0
-        } else if(currentScore < 100) {
-            return 1.5
-        } else {
-            return 1.0
-        }
+        return (4 - (Double(currentScore)/10))
     }
     
     func newArrow(){
