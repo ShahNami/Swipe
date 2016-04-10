@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="LKr-xx-Njr">
+                                <rect key="frame" x="225" y="225" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="KEB-M8-36O"/>
+                                    <constraint firstAttribute="width" constant="150" id="XPK-Hs-dAf"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Testing your patience..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E0E-2U-ZcB">
+                                <rect key="frame" x="225" y="383" width="150" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="4dh-v2-muj"/>
+                                    <constraint firstAttribute="width" constant="150" id="rVd-BK-1hA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RedSwipe" translatesAutoresizingMaskIntoConstraints="NO" id="yEI-BT-JiZ">
+                                <rect key="frame" x="470" y="85" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="gFZ-C8-94r"/>
+                                    <constraint firstAttribute="width" constant="75" id="wvO-Te-hhs"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="WhiteSwipe" translatesAutoresizingMaskIntoConstraints="NO" id="EFa-Is-Vzv">
+                                <rect key="frame" x="50" y="85" width="75" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="0pM-9Z-Ifz"/>
+                                    <constraint firstAttribute="width" constant="75" id="tbi-rh-Zud"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20000000000000001" green="0.39607843139999999" blue="0.54117647059999996" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="LKr-xx-Njr" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="CkH-e5-qng"/>
+                            <constraint firstItem="yEI-BT-JiZ" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailingMargin" constant="-35" id="FEk-UU-X6S"/>
+                            <constraint firstItem="EFa-Is-Vzv" firstAttribute="top" secondItem="yEI-BT-JiZ" secondAttribute="top" id="G5e-VJ-yrl"/>
+                            <constraint firstItem="E0E-2U-ZcB" firstAttribute="top" secondItem="LKr-xx-Njr" secondAttribute="bottom" constant="8" id="JMd-eF-DEA"/>
+                            <constraint firstItem="E0E-2U-ZcB" firstAttribute="top" secondItem="LKr-xx-Njr" secondAttribute="bottom" constant="8" id="OZE-Jb-44x"/>
+                            <constraint firstItem="EFa-Is-Vzv" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="65" id="eMF-v4-ZHq"/>
+                            <constraint firstItem="LKr-xx-Njr" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="efZ-rj-dlu"/>
+                            <constraint firstItem="E0E-2U-ZcB" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="vMZ-g5-yc7"/>
+                            <constraint firstItem="EFa-Is-Vzv" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="30" id="xqq-l2-Gi0"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="LaunchIcon" width="500" height="500"/>
+        <image name="RedSwipe" width="256" height="256"/>
+        <image name="WhiteSwipe" width="256" height="256"/>
+    </resources>
+</document>
