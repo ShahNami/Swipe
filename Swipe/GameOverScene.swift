@@ -39,7 +39,7 @@ class GameOverScene: SKScene {
         self.addChild(score)
         
         let highscore = SKLabelNode(fontNamed: "DIN Condensed")
-        highscore.text = "Highscore: \(hs)"
+        highscore.text = "🏆 \(hs)"
         highscore.fontSize = 30
         highscore.fontColor = SKColor.blackColor()
         highscore.position = CGPointMake(self.size.width/2, 150)

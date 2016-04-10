@@ -14,7 +14,6 @@ class NSMovingArrow: SKSpriteNode {
     init(size: CGSize, sprite: SKTexture, red: Int) {
         super.init(texture: sprite, color: UIColor.clearColor(), size: CGSizeMake(size.width, size.height))
         anchorPoint = CGPointMake(0.5, 0.5)
-        print(red)
         if(red == 1){
             color = UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1)
             colorBlendFactor = 1.0

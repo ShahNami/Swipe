@@ -22,6 +22,8 @@ class GameScene: SKScene {
     var count = 5
     var arrowObject: NSMovingArrow!
     var gameOver = false
+    var timer: NSTimer!
+    
     
     func endGame(){
         if(!gameOver) {
@@ -90,6 +92,11 @@ class GameScene: SKScene {
     func setScore(){
         currentScore += 1
         
+        count = calcCountForScore()
+        timer.invalidate()
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(GameScene.countDown), userInfo: nil, repeats: true)
+        timerLabel.text = "\(getCount())"
+        
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let hs = userDefaults.valueForKey("highscore") {
             if(currentScore > hs as! Int){
@@ -130,7 +137,6 @@ class GameScene: SKScene {
     }
     
     func newArrow(){
-        count = calcCountForScore()
         spriteNum = Int(arc4random_uniform(4))
         dirNum = Int(arc4random_uniform(4))
         colorize = Int(arc4random_uniform(2))
@@ -251,7 +257,7 @@ class GameScene: SKScene {
         if(tapToStart.inParentHierarchy(self)){
             tapToStart.removeFromParent()
             newArrow()
-            _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(GameScene.countDown), userInfo: nil, repeats: true)
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(GameScene.countDown), userInfo: nil, repeats: true)
         }
     }
    
