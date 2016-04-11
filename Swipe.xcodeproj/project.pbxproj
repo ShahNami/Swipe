@@ -105,7 +105,7 @@
 				TargetAttributes = {
 					79DFCB431CBA68F30099011B = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = GTRTHQJ4G9;
+						DevelopmentTeam = BYCJTAN6FV;
 					};
 				};
 			};
@@ -243,9 +243,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Swipe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shahnami.apps.Swipe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shahnami.apps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -254,9 +255,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Swipe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.shahnami.apps.Swipe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shahnami.apps;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

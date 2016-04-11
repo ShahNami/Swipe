@@ -38,11 +38,11 @@ class NSMovingArrow: SKSpriteNode {
             resetPosition = SKAction.moveToY(-50, duration: 0)
             break;
         case 1: //Right
-            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration/1.7)
+            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration)
             resetPosition = SKAction.moveToX(-50, duration: 0)
             break;
         case 2: //Left
-            moveDir = SKAction.moveToX(-(maxX+30) + self.position.x, duration: duration/1.7)
+            moveDir = SKAction.moveToX(-(maxX+30) + self.position.x, duration: duration)
             resetPosition = SKAction.moveToX(CGFloat(maxX)+50, duration: 0)
             break;
         case 3: //Down
@@ -50,7 +50,7 @@ class NSMovingArrow: SKSpriteNode {
             resetPosition = SKAction.moveToY(CGFloat(maxY)+50, duration: 0)
             break;
         default: //Right
-            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration/1.7)
+            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration)
             resetPosition = SKAction.moveToX(-50, duration: 0)
             break;
         }

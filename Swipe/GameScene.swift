@@ -6,6 +6,11 @@
 //  Copyright (c) 2016 Nami Shah. All rights reserved.
 //
 
+/*
+    TODO:
+    - Add something new to the game
+ */
+
 import SpriteKit
 
 class GameScene: SKScene {
@@ -108,7 +113,7 @@ class GameScene: SKScene {
     
     
     func calcSpeedForScore() -> Double{
-        return (4 - (Double(currentScore)/10))
+        return (currentScore >= 55) ? 1.25 : (4 - (Double(currentScore)/20))
     }
     
     func newArrow(){
@@ -135,7 +140,7 @@ class GameScene: SKScene {
             break;
         }
         
-        arrowObject = NSMovingArrow(size: CGSizeMake(sprite.size().width/7, sprite.size().height/7), sprite: sprite, red: colorize)
+        arrowObject = NSMovingArrow(size: CGSizeMake(sprite.size().width/18, sprite.size().height/18), sprite: sprite, red: colorize)
         var startPoint = CGPointMake(0, 0)
         
         switch(dirNum){
@@ -163,12 +168,12 @@ class GameScene: SKScene {
     
     
     override func didMoveToView(view: SKView) {
-        instruction1.position = CGPointMake((view.center.x / 2), 150)
+        instruction1.position = CGPointMake(view.center.x + (view.center.x / 2), 150)
         instruction1.size.width = 100
         instruction1.size.height = 100
         addChild(instruction1)
         
-        instruction2.position = CGPointMake(view.center.x + (view.center.x / 2), 150)
+        instruction2.position = CGPointMake((view.center.x / 2), 150)
         instruction2.size.width = 100
         instruction2.size.height = 100
         addChild(instruction2)

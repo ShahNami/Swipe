@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "arrow_left.png",
+      "filename" : "Left.png",
       "scale" : "1x"
     },
     {
