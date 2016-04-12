@@ -11,11 +11,17 @@ import SpriteKit
 
 class NSMovingArrow: SKSpriteNode {
     
-    init(size: CGSize, sprite: SKTexture, red: Int) {
+    init(size: CGSize, sprite: SKTexture, rgbw: Int) {
         super.init(texture: sprite, color: UIColor.clearColor(), size: CGSizeMake(size.width, size.height))
         anchorPoint = CGPointMake(0.5, 0.5)
-        if(red == 1){
+        if(rgbw == 1){
             color = UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1)
+            colorBlendFactor = 1.0
+        } else if(rgbw == 2) {
+            color = UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 1)
+            colorBlendFactor = 1.0
+        } else if(rgbw == 3) {
+            color = UIColor(red: 0/255, green: 133/255, blue: 60/255, alpha: 1)
             colorBlendFactor = 1.0
         }
     }

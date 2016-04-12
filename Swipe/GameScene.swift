@@ -17,7 +17,7 @@ class GameScene: SKScene {
     
     var spriteNum = 0
     var dirNum = 0
-    var colorize = 0
+    var rgbw = 0
     var currentScore = 0
     var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
     var scoreLabel:SKLabelNode!
@@ -25,6 +25,8 @@ class GameScene: SKScene {
     let tapToStart = SKLabelNode(fontNamed: "DIN Condensed")
     let instruction1 = SKSpriteNode(imageNamed: "WhiteSwipe.png")
     let instruction2 = SKSpriteNode(imageNamed: "RedSwipe.png")
+    let instruction3 = SKSpriteNode(imageNamed: "BlueSwipe.png")
+    let instruction4 = SKSpriteNode(imageNamed: "GreenSwipe.png")
     var arrowObject: NSMovingArrow!
     var gameOver = false
     
@@ -34,9 +36,13 @@ class GameScene: SKScene {
             removeAllChildren()
             gameOver = true
             var c: UIColor
-            if(colorize == 1){
+            if(rgbw == 1){ //red
                 c = UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1)
-            } else {
+            } else if(rgbw == 2) { //blue
+                c = UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 1)
+            } else if(rgbw == 3) { //green
+                c = UIColor(red: 0/255, green: 133/255, blue: 60/255, alpha: 1)
+            } else { //white
                 c = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
             }
             let reveal = SKTransition.fadeWithColor(c, duration: 0.5)
@@ -86,9 +92,35 @@ class GameScene: SKScene {
     }
     
     func checkSolution(swiped: Int) -> Bool{
-        if(colorize == 1){
+        if(rgbw == 1){ //red
+            switch(spriteNum) {
+            case 0:
+                return swiped == 3
+            case 1:
+                return swiped == 2
+            case 2:
+                return swiped == 1
+            case 3:
+                return swiped == 0
+            default:
+                return swiped == 2
+            }
+        } else if (rgbw == 2) { //blue
             return swiped == dirNum
-        } else {
+        } else if (rgbw == 3) { //green
+            switch(dirNum) {
+            case 0:
+                return swiped == 3
+            case 1:
+                return swiped == 2
+            case 2:
+                return swiped == 1
+            case 3:
+                return swiped == 0
+            default:
+                return swiped == 2
+            }
+        } else { //white
             return swiped == spriteNum
         }
     }
@@ -113,13 +145,19 @@ class GameScene: SKScene {
     
     
     func calcSpeedForScore() -> Double{
-        return (currentScore >= 55) ? 1.25 : (4 - (Double(currentScore)/20))
+        return (currentScore >= 50) ? 1.50 : (4 - (Double(currentScore)/20))
     }
     
     func newArrow(){
         spriteNum = Int(arc4random_uniform(4))
         dirNum = Int(arc4random_uniform(4))
-        colorize = Int(arc4random_uniform(2))
+        if(currentScore > 45) {
+            rgbw = Int(arc4random_uniform(4))
+        } else if(currentScore > 25) {
+            rgbw = Int(arc4random_uniform(3))
+        } else {
+            rgbw = Int(arc4random_uniform(2))
+        }
         
         var sprite = SKTexture()
         switch(spriteNum){
@@ -140,7 +178,7 @@ class GameScene: SKScene {
             break;
         }
         
-        arrowObject = NSMovingArrow(size: CGSizeMake(sprite.size().width/18, sprite.size().height/18), sprite: sprite, red: colorize)
+        arrowObject = NSMovingArrow(size: CGSizeMake(sprite.size().width/18, sprite.size().height/18), sprite: sprite, rgbw: rgbw)
         var startPoint = CGPointMake(0, 0)
         
         switch(dirNum){
@@ -168,15 +206,26 @@ class GameScene: SKScene {
     
     
     override func didMoveToView(view: SKView) {
-        instruction1.position = CGPointMake(view.center.x + (view.center.x / 2), 150)
-        instruction1.size.width = 100
-        instruction1.size.height = 100
+        instruction1.position = CGPointMake(view.center.x + (view.center.x / 2), view.center.y + (view.center.y / 2))
+        instruction1.size.width = 75
+        instruction1.size.height = 75
         addChild(instruction1)
         
-        instruction2.position = CGPointMake((view.center.x / 2), 150)
-        instruction2.size.width = 100
-        instruction2.size.height = 100
+        instruction2.position = CGPointMake((view.center.x / 2), view.center.y + (view.center.y / 2))
+        instruction2.size.width = 75
+        instruction2.size.height = 75
         addChild(instruction2)
+        
+        instruction3.position = CGPointMake((view.center.x / 2), view.center.y - (view.center.y / 2))
+        instruction3.size.width = 75
+        instruction3.size.height = 75
+        addChild(instruction3)
+        
+        instruction4.position = CGPointMake(view.center.x + (view.center.x / 2), view.center.y - (view.center.y / 2))
+        instruction4.size.width = 75
+        instruction4.size.height = 75
+        addChild(instruction4)
+        
         
         //let appDomain = NSBundle.mainBundle().bundleIdentifier!
         //NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
@@ -200,7 +249,7 @@ class GameScene: SKScene {
         
         tapToStart.text = "Tap to start"
         tapToStart.fontSize = 40
-        tapToStart.position = CGPointMake(view.center.x, view.center.y + 50)
+        tapToStart.position = CGPointMake(view.center.x, view.center.y)
         tapToStart.name = "taptostart"
         addChild(tapToStart)
 
@@ -234,6 +283,8 @@ class GameScene: SKScene {
             tapToStart.removeFromParent()
             instruction1.removeFromParent()
             instruction2.removeFromParent()
+            instruction3.removeFromParent()
+            instruction4.removeFromParent()
             newArrow()
             _ =  NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GameScene.checkCollision), userInfo: nil, repeats: true)
             

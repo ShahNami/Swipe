@@ -27,22 +27,22 @@ class GameOverScene: SKScene {
         let label = SKLabelNode(fontNamed: "DIN Condensed")
         label.text = "Game over"
         label.fontSize = 50
-        label.fontColor = SKColor.blackColor()
+        label.fontColor = SKColor.whiteColor()
         label.position = CGPointMake(self.size.width/2, self.size.height/2)
         self.addChild(label)
         
         let score = SKLabelNode(fontNamed: "DIN Condensed")
         score.text = "\(cs)"
         score.fontSize = 45
-        score.fontColor = SKColor.blackColor()
-        score.position = CGPointMake(self.size.width/2, self.size.height - 150)
+        score.fontColor = SKColor.whiteColor()
+        score.position = CGPointMake(self.size.width/2, self.size.height/3) //CGPointMake(self.size.width/2, self.size.height - 150)
         self.addChild(score)
         
         let highscore = SKLabelNode(fontNamed: "DIN Condensed")
-        highscore.text = "🏆 \(hs)"
+        highscore.text = "\(hs)"
         highscore.fontSize = 30
-        highscore.fontColor = SKColor.blackColor()
-        highscore.position = CGPointMake(self.size.width/2, 150)
+        highscore.fontColor = SKColor.whiteColor()
+        highscore.position = CGPointMake(self.size.width/2, self.size.height/4)
         self.addChild(highscore)
         
     }
