@@ -15,42 +15,44 @@ import AVFoundation
 
 class GameScene: SKScene {
     
+    var instructionsController: UIViewController?
+    
     var arrowObject: NSMovingArrow!
     var spriteNum = 0
     var dirNum = 0
     var rgbw = 0
     var currentScore = 0
     var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+    var isFgPlaying = NSUserDefaults.standardUserDefaults().integerForKey("isPlayingFg")
     var gameOver = false
     
     var scoreLabel:SKLabelNode!
     var highscoreLabel:SKLabelNode!
     let tapToStart = SKLabelNode(fontNamed: "DIN Condensed")
-    let instruction1 = SKSpriteNode(imageNamed: "WhiteSwipe.png")
-    let instruction2 = SKSpriteNode(imageNamed: "RedSwipe.png")
-    let instruction3 = SKSpriteNode(imageNamed: "BlueSwipe.png")
-    let instruction4 = SKSpriteNode(imageNamed: "GreenSwipe.png")
-    let instruction5 = SKSpriteNode(imageNamed: "GraySwipe.png")
+    let howToPlay = SKLabelNode(fontNamed: "DIN Condensed")
     
     var sound = AVAudioPlayer()
-    let speaker = SKSpriteNode(texture: SKTexture(imageNamed: "unmute.png"))
+    let bgspeaker = SKSpriteNode(texture: SKTexture(imageNamed: "unmutebg.png"))
+    let fgspeaker = SKSpriteNode(texture: SKTexture(imageNamed: "unmute.png"))
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
     
     func playSound(soundName: String)
     {
-        let coinSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(soundName, ofType: "mp3")!)
-        do{
-            sound = try AVAudioPlayer(contentsOfURL:coinSound)
-            sound.volume = 1.0
-            if(soundName == "correct"){
-                sound.volume = 0.1
+        if(isFgPlaying == 1) {
+            let coinSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(soundName, ofType: "mp3")!)
+            do{
+                sound = try AVAudioPlayer(contentsOfURL:coinSound)
+                sound.volume = 1.0
+                if(soundName == "correct"){
+                    sound.volume = 0.1
+                }
+                sound.prepareToPlay()
+                sound.play()
+            }catch {
+                print("Error getting the audio file")
             }
-            sound.prepareToPlay()
-            sound.play()
-        }catch {
-            print("Error getting the audio file")
         }
     }
 
@@ -79,42 +81,50 @@ class GameScene: SKScene {
     }
     
     func swipedUp(sender:UISwipeGestureRecognizer){
-        if(checkSolution(0)){
-            setScore()
-            arrowObject.removeFromParent()
-            newArrow()
-        } else {
-            endGame()
+        if(!tapToStart.inParentHierarchy(self)){
+            if(checkSolution(0)){
+                setScore()
+                arrowObject.removeFromParent()
+                newArrow()
+            } else {
+                endGame()
+            }
         }
     }
     
     func swipedRight(sender:UISwipeGestureRecognizer){
-        if(checkSolution(1)){
-            setScore()
-            arrowObject.removeFromParent()
-            newArrow()
-        } else {
-            endGame()
+        if(!tapToStart.inParentHierarchy(self)){
+            if(checkSolution(1)){
+                setScore()
+                arrowObject.removeFromParent()
+                newArrow()
+            } else {
+                endGame()
+            }
         }
     }
     
     func swipedLeft(sender:UISwipeGestureRecognizer){
-        if(checkSolution(2)){
-            setScore()
-            arrowObject.removeFromParent()
-            newArrow()
-        } else {
-            endGame()
+        if(!tapToStart.inParentHierarchy(self)){
+            if(checkSolution(2)){
+                setScore()
+                arrowObject.removeFromParent()
+                newArrow()
+            } else {
+                endGame()
+            }
         }
     }
     
     func swipedDown(sender:UISwipeGestureRecognizer){
-        if(checkSolution(3)){
-            setScore()
-            arrowObject.removeFromParent()
-            newArrow()
-        } else {
-            endGame()
+        if(!tapToStart.inParentHierarchy(self)){
+            if(checkSolution(3)){
+                setScore()
+                arrowObject.removeFromParent()
+                newArrow()
+            } else {
+                endGame()
+            }
         }
     }
     
@@ -237,82 +247,102 @@ class GameScene: SKScene {
         arrowObject.start(dirNum, maxX: self.frame.size.width, maxY: self.frame.size.height, duration: calcSpeedForScore())
     }
     
-    func changeSpeaker(){
+    func changeFgSpeaker(){
+        if let playing = userDefaults.valueForKey("isPlayingFg") {
+            if(playing as! NSObject == 1) {
+                userDefaults.setValue(0, forKey: "isPlayingFg")
+                userDefaults.synchronize()
+                fgspeaker.texture = SKTexture(imageNamed: "mute.png")
+                isFgPlaying = 0
+            } else {
+                userDefaults.setValue(1, forKey: "isPlayingFg")
+                userDefaults.synchronize()
+                fgspeaker.texture = SKTexture(imageNamed: "unmute.png")
+                isFgPlaying = 1
+            }
+        } else {
+            userDefaults.setInteger(1, forKey: "isPlayingFg")
+        }
+        
+        fgspeaker.name = "fgspeaker"
+        fgspeaker.position = CGPointMake(view!.center.x / 3, 40)
+        fgspeaker.size.width = 30
+        fgspeaker.size.height = 30
+        fgspeaker.zPosition = 100
+        fgspeaker.removeFromParent()
+        addChild(fgspeaker)
+    }
+    
+    func changeBgSpeaker(){
         if let playing = userDefaults.valueForKey("isPlaying") {
             if(playing as! NSObject == 1) {
                 userDefaults.setValue(0, forKey: "isPlaying")
                 userDefaults.synchronize()
-                speaker.texture = SKTexture(imageNamed: "mute.png")
+                bgspeaker.texture = SKTexture(imageNamed: "mutebg.png")
                 MusicHelper.sharedHelper.pauseBackgroundMusic()
             } else {
                 userDefaults.setValue(1, forKey: "isPlaying")
                 userDefaults.synchronize()
-                speaker.texture = SKTexture(imageNamed: "unmute.png")
+                bgspeaker.texture = SKTexture(imageNamed: "unmutebg.png")
                 MusicHelper.sharedHelper.resumeBackgroundMusic()
             }
         } else {
             userDefaults.setInteger(1, forKey: "isPlaying")
         }
         
-        speaker.name = "speaker"
-        speaker.position = CGPointMake(view!.center.x, self.frame.size.height - 30)
-        speaker.size.width = 30
-        speaker.size.height = 30
-        speaker.zPosition = 100
-        speaker.removeFromParent()
-        addChild(speaker)
+        bgspeaker.name = "speaker"
+        bgspeaker.position = CGPointMake(view!.center.x + (view!.center.x / 3)*2, 40)
+        bgspeaker.size.width = 30
+        bgspeaker.size.height = 30
+        bgspeaker.zPosition = 100
+        bgspeaker.removeFromParent()
+        addChild(bgspeaker)
     }
     
     
     override func didMoveToView(view: SKView) {
-        
-        
-        instruction1.position = CGPointMake((view.center.x / 2), view.center.y - (view.center.y / 3))
-        instruction1.size.width = 65
-        instruction1.size.height = 65
-        addChild(instruction1)
-        
-        instruction2.position = CGPointMake(view.center.x + (view.center.x / 2), view.center.y - (view.center.y / 3))
-        instruction2.size.width = 65
-        instruction2.size.height = 65
-        addChild(instruction2)
-        
-        instruction3.position = CGPointMake(view.center.x + (view.center.x / 2), view.center.y - (view.center.y /  1.5))
-        instruction3.size.width = 65
-        instruction3.size.height = 65
-        addChild(instruction3)
-        
-        instruction4.position = CGPointMake((view.center.x / 2), view.center.y - (view.center.y /  1.5))
-        instruction4.size.width = 65
-        instruction4.size.height = 65
-        addChild(instruction4)
-        
-        instruction5.position = CGPointMake(view.center.x, view.center.y - (view.center.y / 2))
-        instruction5.size.width = 65
-        instruction5.size.height = 65
-        addChild(instruction5)
-        
         willRunOnce()
         
-        if let playing = self.userDefaults.valueForKey("isPlaying") {
+        if let playing = userDefaults.valueForKey("isPlaying") {
             if(playing as! NSObject == 1) {
-                self.speaker.texture = SKTexture(imageNamed: "unmute.png")
+                bgspeaker.texture = SKTexture(imageNamed: "unmutebg.png")
                 MusicHelper.sharedHelper.resumeBackgroundMusic()
             } else {
-                self.speaker.texture = SKTexture(imageNamed: "mute.png")
+                bgspeaker.texture = SKTexture(imageNamed: "mutebg.png")
                 MusicHelper.sharedHelper.pauseBackgroundMusic()
             }
         } else {
-            self.userDefaults.setInteger(1, forKey: "isPlaying")
+            userDefaults.setInteger(1, forKey: "isPlaying")
         }
         
-        self.speaker.name = "speaker"
-        self.speaker.position = CGPointMake(self.view!.center.x, self.frame.size.height - 30)
-        self.speaker.size.width = 30
-        self.speaker.size.height = 30
-        self.speaker.zPosition = 100
-        self.speaker.removeFromParent()
-        self.addChild(self.speaker)
+        bgspeaker.name = "speaker"
+        bgspeaker.position = CGPointMake(view.center.x + (view.center.x / 3)*2, 40)
+        bgspeaker.size.width = 30
+        bgspeaker.size.height = 30
+        bgspeaker.zPosition = 100
+        bgspeaker.removeFromParent()
+        addChild(bgspeaker)
+        
+        if let playing = userDefaults.valueForKey("isPlayingFg") {
+            if(playing as! NSObject == 1) {
+                fgspeaker.texture = SKTexture(imageNamed: "unmute.png")
+                isFgPlaying = 1
+            } else {
+                fgspeaker.texture = SKTexture(imageNamed: "mute.png")
+                isFgPlaying = 0
+            }
+        } else {
+            userDefaults.setInteger(1, forKey: "isPlayingFg")
+            isFgPlaying = 1
+        }
+        
+        fgspeaker.name = "fgspeaker"
+        fgspeaker.position = CGPointMake(view.center.x/3 , 40)
+        fgspeaker.size.width = 30
+        fgspeaker.size.height = 30
+        fgspeaker.zPosition = 100
+        fgspeaker.removeFromParent()
+        addChild(fgspeaker)
         
         //let appDomain = NSBundle.mainBundle().bundleIdentifier!
         //NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
@@ -339,6 +369,11 @@ class GameScene: SKScene {
         tapToStart.name = "taptostart"
         addChild(tapToStart)
 
+        howToPlay.text = "?"
+        howToPlay.fontSize = 70
+        howToPlay.position = CGPointMake(view.center.x, view.center.y - (view.center.y/2))
+        howToPlay.name = "howtoplay"
+        addChild(howToPlay)
         
         /* Setup your scene here */
         
@@ -365,27 +400,34 @@ class GameScene: SKScene {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
+        var didTap = false
         for var touch in touches {
             let positionInScene = touch.locationInNode(self)
             let touchedNode = self.nodeAtPoint(positionInScene)
         
             if let name = touchedNode.name {
                 if name == "speaker" {
-                    changeSpeaker()
+                    didTap = true
+                    changeBgSpeaker()
+                    return
+                } else if name == "fgspeaker" {
+                    didTap = true
+                    changeFgSpeaker()
+                } else if name == "howtoplay" {
+                    didTap = true
+                    //self.instructionsController!.performSegueWithIdentifier("pushInstruction", sender: self.instructionsController)
                     return
                 }
             }
         }
-        if(tapToStart.inParentHierarchy(self)){
+        if(tapToStart.inParentHierarchy(self) && !didTap){
             tapToStart.removeFromParent()
-            instruction1.removeFromParent()
-            instruction2.removeFromParent()
-            instruction3.removeFromParent()
-            instruction4.removeFromParent()
-            instruction5.removeFromParent()
+            howToPlay.removeFromParent()
             newArrow()
             _ =  NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GameScene.checkCollision), userInfo: nil, repeats: true)
         }
+
+        
     }
     
     func checkCollision(){

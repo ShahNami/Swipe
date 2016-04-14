@@ -13,7 +13,6 @@ import AVFoundation
 class GameViewController: UIViewController {
 
     var scene: GameScene!
-    //var backgroundMusicPlayer = AVAudioPlayer()
     
     
     override func viewDidLoad() {
@@ -22,26 +21,11 @@ class GameViewController: UIViewController {
         skView.multipleTouchEnabled = false
         
         scene = GameScene(size: skView.bounds.size)
+        scene.instructionsController = self
         scene.scaleMode = .AspectFill
-        //playBackground("theme")
         skView.presentScene(scene)
+        
     }
-    
-    /*
-    func playBackground(soundName: String)
-    {
-        let song = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(soundName, ofType: "mp3")!)
-        do{
-            backgroundMusicPlayer = try AVAudioPlayer(contentsOfURL:song)
-            backgroundMusicPlayer.numberOfLoops = -1
-            backgroundMusicPlayer.prepareToPlay()
-            backgroundMusicPlayer.volume = 0.05
-            backgroundMusicPlayer.play()
-        }catch {
-            print("Error getting the audio file")
-        }
-    }
-     */
 
     override func shouldAutorotate() -> Bool {
         return true
