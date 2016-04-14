@@ -23,6 +23,9 @@ class NSMovingArrow: SKSpriteNode {
         } else if(rgbw == 3) {
             color = UIColor(red: 0/255, green: 133/255, blue: 60/255, alpha: 1)
             colorBlendFactor = 1.0
+        } else if(rgbw == 4) {
+            color = UIColor(red: 130/255, green: 130/255, blue: 130/255, alpha: 1)
+            colorBlendFactor = 1.0
         }
     }
     
