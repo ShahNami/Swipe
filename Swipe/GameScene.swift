@@ -15,8 +15,6 @@ import AVFoundation
 
 class GameScene: SKScene {
     
-    var instructionsController: UIViewController?
-    
     var arrowObject: NSMovingArrow!
     var spriteNum = 0
     var dirNum = 0
@@ -29,7 +27,9 @@ class GameScene: SKScene {
     var scoreLabel:SKLabelNode!
     var highscoreLabel:SKLabelNode!
     let tapToStart = SKLabelNode(fontNamed: "DIN Condensed")
-    let howToPlay = SKLabelNode(fontNamed: "DIN Condensed")
+    let howToPlay = SKSpriteNode(texture: SKTexture(imageNamed: "InstructionIcon.png"))
+    
+    let overlayInstructions = SKSpriteNode()
     
     var sound = AVAudioPlayer()
     let bgspeaker = SKSpriteNode(texture: SKTexture(imageNamed: "unmutebg.png"))
@@ -40,7 +40,7 @@ class GameScene: SKScene {
     
     func playSound(soundName: String)
     {
-        if(isFgPlaying == 1) {
+        if(isFgPlaying == 1 && !gameOver) {
             let coinSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource(soundName, ofType: "mp3")!)
             do{
                 sound = try AVAudioPlayer(contentsOfURL:coinSound)
@@ -76,7 +76,7 @@ class GameScene: SKScene {
             }
             let reveal = SKTransition.fadeWithColor(c, duration: 0.5)
             let scene = GameOverScene(size: self.size, cs: currentScore, hs: highscore)
-            self.view?.presentScene(scene, transition: reveal)
+            self.view!.presentScene(scene, transition: reveal)
         }
     }
     
@@ -315,6 +315,41 @@ class GameScene: SKScene {
             userDefaults.setInteger(1, forKey: "isPlaying")
         }
         
+        var overlayFgBg = SKSpriteNode()
+        overlayFgBg.name = "overlayFg"
+        overlayFgBg.position = CGPointMake(view.center.x/3 , 40)
+        overlayFgBg.size.width = 50
+        overlayFgBg.size.height = 50
+        overlayFgBg.zPosition = 99
+        overlayFgBg.color = UIColor.clearColor()
+        addChild(overlayFgBg)
+        
+        overlayFgBg = SKSpriteNode()
+        overlayFgBg.name = "overlayBg"
+        overlayFgBg.position = CGPointMake(view.center.x + (view.center.x / 3)*2, 40)
+        overlayFgBg.size.width = 50
+        overlayFgBg.size.height = 50
+        overlayFgBg.zPosition = 99
+        overlayFgBg.color = UIColor.clearColor()
+        addChild(overlayFgBg)
+        
+        overlayInstructions.name = "overlayInstructions"
+        overlayInstructions.position = CGPointMake(view.center.x, 40)
+        overlayInstructions.size.width = 50
+        overlayInstructions.size.height = 50
+        overlayInstructions.anchorPoint = CGPointMake(0.5, 0.5)
+        overlayInstructions.zPosition = 99
+        overlayInstructions.color = UIColor.clearColor()
+        addChild(overlayInstructions)
+        
+        
+        howToPlay.name = "howtoplay"
+        howToPlay.position = CGPointMake(view.center.x, 40)
+        howToPlay.size.width = 30
+        howToPlay.size.height = 30
+        howToPlay.zPosition = 100
+        addChild(howToPlay)
+        
         bgspeaker.name = "speaker"
         bgspeaker.position = CGPointMake(view.center.x + (view.center.x / 3)*2, 40)
         bgspeaker.size.width = 30
@@ -368,12 +403,6 @@ class GameScene: SKScene {
         tapToStart.position = CGPointMake(view.center.x, view.center.y)
         tapToStart.name = "taptostart"
         addChild(tapToStart)
-
-        howToPlay.text = "?"
-        howToPlay.fontSize = 70
-        howToPlay.position = CGPointMake(view.center.x, view.center.y - (view.center.y/2))
-        howToPlay.name = "howtoplay"
-        addChild(howToPlay)
         
         /* Setup your scene here */
         
@@ -406,16 +435,18 @@ class GameScene: SKScene {
             let touchedNode = self.nodeAtPoint(positionInScene)
         
             if let name = touchedNode.name {
-                if name == "speaker" {
+                if name == "speaker" || name == "overlayBg"{
                     didTap = true
                     changeBgSpeaker()
                     return
-                } else if name == "fgspeaker" {
+                } else if name == "fgspeaker" || name == "overlayFg" {
                     didTap = true
                     changeFgSpeaker()
-                } else if name == "howtoplay" {
+                } else if name == "howtoplay" || name == "overlayInstructions" {
                     didTap = true
-                    //self.instructionsController!.performSegueWithIdentifier("pushInstruction", sender: self.instructionsController)
+                    let reveal = SKTransition.flipVerticalWithDuration(0.5)
+                    let scene = InstructionScene(size: self.size)
+                    self.view!.presentScene(scene, transition: reveal)
                     return
                 }
             }
@@ -423,6 +454,7 @@ class GameScene: SKScene {
         if(tapToStart.inParentHierarchy(self) && !didTap){
             tapToStart.removeFromParent()
             howToPlay.removeFromParent()
+            overlayInstructions.removeFromParent()
             newArrow()
             _ =  NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GameScene.checkCollision), userInfo: nil, repeats: true)
         }

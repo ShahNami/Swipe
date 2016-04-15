@@ -18,11 +18,10 @@ class GameOverScene: SKScene {
         background.zPosition = 0
         background.position = CGPoint(x: size.width / 2, y: size.height / 2)
         background.size = self.frame.size
-        
         addChild(background)
         
-        self.backgroundColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
-        
+        backgroundColor = UIColor(red: 44/255.0, green: 62/255.0, blue: 80/255.0, alpha: 1)
+
         
         let label = SKLabelNode(fontNamed: "DIN Condensed")
         label.text = "Game over"

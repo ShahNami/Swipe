@@ -21,14 +21,9 @@ class GameViewController: UIViewController {
         skView.multipleTouchEnabled = false
         
         scene = GameScene(size: skView.bounds.size)
-        scene.instructionsController = self
         scene.scaleMode = .AspectFill
         skView.presentScene(scene)
         
-    }
-
-    override func shouldAutorotate() -> Bool {
-        return true
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {

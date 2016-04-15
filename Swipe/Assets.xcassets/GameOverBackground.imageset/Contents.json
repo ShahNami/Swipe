@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "GameOverBackground.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "GameOverBackground.png",
       "scale" : "2x"
     },
     {

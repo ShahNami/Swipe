@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7914C0001CC04DF400161A79 /* InstructionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7914BFFF1CC04DF400161A79 /* InstructionViewController.swift */; };
+		7914C0021CC0DBA900161A79 /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7914C0011CC0DBA900161A79 /* InstructionScene.swift */; };
 		793D9A111CBEE11B00E3DD91 /* theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 793D9A0E1CBEE11B00E3DD91 /* theme.mp3 */; };
 		793D9A181CBEE86D00E3DD91 /* correct.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 793D9A161CBEE86D00E3DD91 /* correct.mp3 */; };
 		793D9A191CBEE86D00E3DD91 /* wrong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 793D9A171CBEE86D00E3DD91 /* wrong.mp3 */; };
@@ -23,7 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7914BFFF1CC04DF400161A79 /* InstructionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionViewController.swift; sourceTree = "<group>"; };
+		7914C0011CC0DBA900161A79 /* InstructionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
 		793D9A0E1CBEE11B00E3DD91 /* theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = theme.mp3; sourceTree = "<group>"; };
 		793D9A161CBEE86D00E3DD91 /* correct.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correct.mp3; sourceTree = "<group>"; };
 		793D9A171CBEE86D00E3DD91 /* wrong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wrong.mp3; sourceTree = "<group>"; };
@@ -83,10 +83,10 @@
 				793D9A131CBEE12700E3DD91 /* Sounds */,
 				79DFCB471CBA68F30099011B /* AppDelegate.swift */,
 				79A2FBA31CBA6F2300A3A553 /* GameOverScene.swift */,
+				7914C0011CC0DBA900161A79 /* InstructionScene.swift */,
 				793D9A1C1CBFFBF400E3DD91 /* MusicHelper.swift */,
 				79A2FBA41CBA6F2300A3A553 /* GameScene.swift */,
 				79A2FBA51CBA6F2300A3A553 /* GameViewController.swift */,
-				7914BFFF1CC04DF400161A79 /* InstructionViewController.swift */,
 				79DFCB631CBA699F0099011B /* NSMovingArrow.swift */,
 				79DFCB521CBA68F30099011B /* Assets.xcassets */,
 				79DFCB651CBA69B20099011B /* LaunchScreen.storyboard */,
@@ -172,8 +172,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				79DFCB641CBA699F0099011B /* NSMovingArrow.swift in Sources */,
+				7914C0021CC0DBA900161A79 /* InstructionScene.swift in Sources */,
 				79A2FBA81CBA6F2300A3A553 /* GameViewController.swift in Sources */,
-				7914C0001CC04DF400161A79 /* InstructionViewController.swift in Sources */,
 				79A2FBA61CBA6F2300A3A553 /* GameOverScene.swift in Sources */,
 				79A2FBA71CBA6F2300A3A553 /* GameScene.swift in Sources */,
 				79DFCB481CBA68F30099011B /* AppDelegate.swift in Sources */,
