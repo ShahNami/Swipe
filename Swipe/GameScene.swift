@@ -37,6 +37,12 @@ class GameScene: SKScene {
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
+    var wOdds: Int!
+    var rOdds: Int!
+    var blOdds: Int!
+    var gOdds: Int!
+    var grOdds: Int!
+    
     
     func playSound(soundName: String)
     {
@@ -188,18 +194,48 @@ class GameScene: SKScene {
         return (currentScore >= 50) ? 1.50 : (4 - (Double(currentScore)/20))
     }
     
+    func calculateOdds() {
+        if(currentScore <= 50) {
+            wOdds = 50 - (abs(50 - 20) / 50) * currentScore
+            rOdds = 40 - (abs(40 - 20) / 50) * currentScore
+            blOdds = 10 + (abs(10 - 20) / 50) * currentScore
+            gOdds = 5 + (abs(5 - 20) / 50) * currentScore
+            grOdds = 2 + (abs(2 - 20) / 50) * currentScore
+        } else {
+            wOdds = 20
+            rOdds = 20
+            blOdds = 20
+            gOdds = 20
+            grOdds = 5
+        }
+    }
+    
+    func getOdds(random: Int) -> Int{
+        if(random < wOdds) {
+            return 0
+        } else if(random < (wOdds + rOdds)) {
+            return 1
+        } else if(random < (wOdds + rOdds + blOdds)) {
+            return 2
+        } else if(random < (wOdds + rOdds + blOdds + gOdds)) {
+            return 3
+        } else if(random < (wOdds + rOdds + blOdds + gOdds + grOdds)) {
+            return 4
+        } else {
+            return 0
+        }
+    }
+    
+    
     func newArrow(){
         spriteNum = Int(arc4random_uniform(4))
         dirNum = Int(arc4random_uniform(4))
-        if(currentScore > 75) {
-            rgbw = Int(arc4random_uniform(5))
-        } else if(currentScore > 45) {
-            rgbw = Int(arc4random_uniform(4))
-        } else if(currentScore > 25) {
-            rgbw = Int(arc4random_uniform(3))
-        } else {
-            rgbw = Int(arc4random_uniform(2))
-        }
+        calculateOdds()
+        
+        var totalOdds = (wOdds + rOdds + blOdds)
+        totalOdds += (gOdds + grOdds) + 1
+        let rand = Int(arc4random_uniform(UInt32(totalOdds)))
+        rgbw = getOdds(rand)
         
         let sprite = SKTexture(imageNamed: "arrow_right.png")
         
