@@ -74,7 +74,7 @@ class GameScene: SKScene {
             } else if(rgbw == 2) { //blue
                 c = UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 1)
             } else if(rgbw == 3) { //green
-                c = UIColor(red: 0/255, green: 133/255, blue: 60/255, alpha: 1)
+                c = UIColor(red: 42/255, green: 187/255, blue: 155/255, alpha: 1)
             } else if(rgbw == 4) { //Gray
                 c = UIColor(red: 130/255, green: 130/255, blue: 130/255, alpha: 1)
             } else { //white
