@@ -27,13 +27,19 @@ class GameScene: SKScene {
     var scoreLabel:SKLabelNode!
     var highscoreLabel:SKLabelNode!
     let tapToStart = SKLabelNode(fontNamed: "DIN Condensed")
-    let howToPlay = SKSpriteNode(texture: SKTexture(imageNamed: "InstructionIcon.png"))
     
-    let overlayInstructions = SKSpriteNode()
+    var overlayLB = SKSpriteNode()
+    var overlayBS = SKSpriteNode()
+    var overlayFS = SKSpriteNode()
+    var overlayII = SKSpriteNode()
     
     var sound = AVAudioPlayer()
+    
     let bgspeaker = SKSpriteNode(texture: SKTexture(imageNamed: "unmutebg.png"))
     let fgspeaker = SKSpriteNode(texture: SKTexture(imageNamed: "unmute.png"))
+    let howToPlay = SKSpriteNode(texture: SKTexture(imageNamed: "InstructionIcon.png"))
+    let leaderboardIcon = SKSpriteNode(texture: SKTexture(imageNamed: "highscore.png"))
+    
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
@@ -83,6 +89,22 @@ class GameScene: SKScene {
             let reveal = SKTransition.fadeWithColor(c, duration: 0.5)
             let scene = GameOverScene(size: self.size, cs: currentScore, hs: highscore)
             self.view!.presentScene(scene, transition: reveal)
+            publishScoreToFacebook()
+        }
+    }
+    
+    func publishScoreToFacebook(){
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            let params: [NSObject : AnyObject] = ["score": "\(highscore)"]
+            /* make the API call */
+            let request: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "/me/scores", parameters: params, HTTPMethod: "POST")
+            request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+                if error == nil {
+                    print("Successfully published score!")
+                } else {
+                    print("Error Publishing Score: \(error)");
+                }
+            }
         }
     }
     
@@ -179,7 +201,6 @@ class GameScene: SKScene {
                 highscore = currentScore
                 userDefaults.setValue(highscore, forKey: "highscore")
                 userDefaults.synchronize()
-                
             }
         } else {
             userDefaults.setInteger(currentScore, forKey: "highscore")
@@ -301,10 +322,11 @@ class GameScene: SKScene {
         }
         
         fgspeaker.name = "fgspeaker"
-        fgspeaker.position = CGPointMake(view!.center.x / 3, 40)
         fgspeaker.size.width = 30
         fgspeaker.size.height = 30
         fgspeaker.zPosition = 100
+        fgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
+        fgspeaker.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+10) , 40)
         fgspeaker.removeFromParent()
         addChild(fgspeaker)
     }
@@ -327,10 +349,11 @@ class GameScene: SKScene {
         }
         
         bgspeaker.name = "speaker"
-        bgspeaker.position = CGPointMake(view!.center.x + (view!.center.x / 3)*2, 40)
         bgspeaker.size.width = 30
         bgspeaker.size.height = 30
         bgspeaker.zPosition = 100
+        bgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
+        bgspeaker.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+10), 40)
         bgspeaker.removeFromParent()
         addChild(bgspeaker)
     }
@@ -351,49 +374,6 @@ class GameScene: SKScene {
             userDefaults.setInteger(1, forKey: "isPlaying")
         }
         
-        var overlayFgBg = SKSpriteNode()
-        overlayFgBg.name = "overlayFg"
-        overlayFgBg.position = CGPointMake(view.center.x/3 , 40)
-        overlayFgBg.size.width = 50
-        overlayFgBg.size.height = 50
-        overlayFgBg.zPosition = 99
-        overlayFgBg.color = UIColor.clearColor()
-        addChild(overlayFgBg)
-        
-        overlayFgBg = SKSpriteNode()
-        overlayFgBg.name = "overlayBg"
-        overlayFgBg.position = CGPointMake(view.center.x + (view.center.x / 3)*2, 40)
-        overlayFgBg.size.width = 50
-        overlayFgBg.size.height = 50
-        overlayFgBg.zPosition = 99
-        overlayFgBg.color = UIColor.clearColor()
-        addChild(overlayFgBg)
-        
-        overlayInstructions.name = "overlayInstructions"
-        overlayInstructions.position = CGPointMake(view.center.x, 40)
-        overlayInstructions.size.width = 50
-        overlayInstructions.size.height = 50
-        overlayInstructions.anchorPoint = CGPointMake(0.5, 0.5)
-        overlayInstructions.zPosition = 99
-        overlayInstructions.color = UIColor.clearColor()
-        addChild(overlayInstructions)
-        
-        
-        howToPlay.name = "howtoplay"
-        howToPlay.position = CGPointMake(view.center.x, 40)
-        howToPlay.size.width = 30
-        howToPlay.size.height = 30
-        howToPlay.zPosition = 100
-        addChild(howToPlay)
-        
-        bgspeaker.name = "speaker"
-        bgspeaker.position = CGPointMake(view.center.x + (view.center.x / 3)*2, 40)
-        bgspeaker.size.width = 30
-        bgspeaker.size.height = 30
-        bgspeaker.zPosition = 100
-        bgspeaker.removeFromParent()
-        addChild(bgspeaker)
-        
         if let playing = userDefaults.valueForKey("isPlayingFg") {
             if(playing as! NSObject == 1) {
                 fgspeaker.texture = SKTexture(imageNamed: "unmute.png")
@@ -407,13 +387,78 @@ class GameScene: SKScene {
             isFgPlaying = 1
         }
         
+        leaderboardIcon.name = "leaderboard"
+        leaderboardIcon.size.width = 30
+        leaderboardIcon.size.height = 30
+        leaderboardIcon.anchorPoint = CGPointMake(0.5, 0.5)
+        leaderboardIcon.zPosition = 100
+        leaderboardIcon.position = CGPointMake(((1/4) * self.frame.size.width) - (leaderboardIcon.size.width+10), 40)
+        addChild(leaderboardIcon)
+        
+        howToPlay.name = "howtoplay"
+        howToPlay.size.width = 30
+        howToPlay.size.height = 30
+        howToPlay.anchorPoint = CGPointMake(0.5, 0.5)
+        howToPlay.zPosition = 100
+        howToPlay.position = CGPointMake(((2/4) * self.frame.size.width) - (howToPlay.size.width+10), 40)
+        addChild(howToPlay)
+        
         fgspeaker.name = "fgspeaker"
-        fgspeaker.position = CGPointMake(view.center.x/3 , 40)
         fgspeaker.size.width = 30
         fgspeaker.size.height = 30
         fgspeaker.zPosition = 100
+        fgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
+        fgspeaker.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+10) , 40)
         fgspeaker.removeFromParent()
         addChild(fgspeaker)
+        
+        bgspeaker.name = "speaker"
+        bgspeaker.size.width = 30
+        bgspeaker.size.height = 30
+        bgspeaker.zPosition = 100
+        bgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
+        bgspeaker.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+10), 40)
+        bgspeaker.removeFromParent()
+        addChild(bgspeaker)
+        
+        
+        overlayFS = SKSpriteNode()
+        overlayFS.name = "overlayFg"
+        overlayFS.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+10), 40)
+        overlayFS.size.width = 75
+        overlayFS.size.height = 75
+        overlayFS.zPosition = 99
+        overlayFS.color = UIColor.clearColor()
+        addChild(overlayFS)
+        
+        overlayBS = SKSpriteNode()
+        overlayBS.name = "overlayBg"
+        overlayBS.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+10), 40)
+        overlayBS.size.width = 75
+        overlayBS.size.height = 75
+        overlayBS.zPosition = 99
+        overlayBS.color = UIColor.clearColor()
+        addChild(overlayBS)
+        
+        overlayII = SKSpriteNode()
+        overlayII.name = "overlayInstructions"
+        overlayII.position = CGPointMake(((2/4) * self.frame.size.width) - (howToPlay.size.width+10), 40)
+        overlayII.size.width = 75
+        overlayII.size.height = 75
+        overlayII.anchorPoint = CGPointMake(0.5, 0.5)
+        overlayII.zPosition = 99
+        overlayII.color = UIColor.clearColor()
+        addChild(overlayII)
+        
+        overlayLB = SKSpriteNode()
+        overlayLB.name = "overlayLeaderboard"
+        overlayLB.position = CGPointMake(((1/4) * self.frame.size.width) - (leaderboardIcon.size.width+10), 40)
+        overlayLB.size.width = 75
+        overlayLB.size.height = 75
+        overlayLB.anchorPoint = CGPointMake(0.5, 0.5)
+        overlayLB.zPosition = 99
+        overlayLB.color = UIColor.clearColor()
+        addChild(overlayLB)
         
         //let appDomain = NSBundle.mainBundle().bundleIdentifier!
         //NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
@@ -484,13 +529,27 @@ class GameScene: SKScene {
                     let scene = InstructionScene(size: self.size)
                     self.view!.presentScene(scene, transition: reveal)
                     return
+                } else if name == "leaderboard" || name == "overlayLeaderboard" {
+                    didTap = true
+                    let viewController:UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LeaderBoard") as UIViewController
+                    self.view!.window!.rootViewController!.presentViewController(viewController, animated: true, completion: nil)
+                    
+                    //self.view!.window!.rootViewController!.performSegueWithIdentifier("pushLeaderboard", sender: self)
+                    return
                 }
             }
         }
+        
         if(tapToStart.inParentHierarchy(self) && !didTap){
             tapToStart.removeFromParent()
             howToPlay.removeFromParent()
-            overlayInstructions.removeFromParent()
+            fgspeaker.removeFromParent()
+            bgspeaker.removeFromParent()
+            leaderboardIcon.removeFromParent()
+            overlayLB.removeFromParent()
+            overlayBS.removeFromParent()
+            overlayFS.removeFromParent()
+            overlayII.removeFromParent()
             newArrow()
             _ =  NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GameScene.checkCollision), userInfo: nil, repeats: true)
         }

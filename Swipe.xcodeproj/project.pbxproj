@@ -15,6 +15,10 @@
 		79A2FBA61CBA6F2300A3A553 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A2FBA31CBA6F2300A3A553 /* GameOverScene.swift */; };
 		79A2FBA71CBA6F2300A3A553 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A2FBA41CBA6F2300A3A553 /* GameScene.swift */; };
 		79A2FBA81CBA6F2300A3A553 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A2FBA51CBA6F2300A3A553 /* GameViewController.swift */; };
+		79C064871CCB903F00F3F6B9 /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C064861CCB903F00F3F6B9 /* LeaderboardViewController.swift */; };
+		79C0648D1CCBA72300F3F6B9 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79C0648C1CCBA72300F3F6B9 /* FBSDKCoreKit.framework */; };
+		79C064921CCBA94700F3F6B9 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79C064911CCBA94700F3F6B9 /* FBSDKLoginKit.framework */; };
+		79C064941CCBC90300F3F6B9 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C064931CCBC90300F3F6B9 /* CustomCell.swift */; };
 		79DFCB481CBA68F30099011B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DFCB471CBA68F30099011B /* AppDelegate.swift */; };
 		79DFCB531CBA68F30099011B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79DFCB521CBA68F30099011B /* Assets.xcassets */; };
 		79DFCB641CBA699F0099011B /* NSMovingArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DFCB631CBA699F0099011B /* NSMovingArrow.swift */; };
@@ -31,6 +35,11 @@
 		79A2FBA31CBA6F2300A3A553 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		79A2FBA41CBA6F2300A3A553 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		79A2FBA51CBA6F2300A3A553 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		79C064861CCB903F00F3F6B9 /* LeaderboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardViewController.swift; sourceTree = "<group>"; };
+		79C0648C1CCBA72300F3F6B9 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		79C0648E1CCBA8E300F3F6B9 /* Swipe-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Swipe-Bridging-Header.h"; sourceTree = "<group>"; };
+		79C064911CCBA94700F3F6B9 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		79C064931CCBC90300F3F6B9 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		79DFCB441CBA68F30099011B /* Swipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79DFCB471CBA68F30099011B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		79DFCB521CBA68F30099011B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,6 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79C064921CCBA94700F3F6B9 /* FBSDKLoginKit.framework in Frameworks */,
+				79C0648D1CCBA72300F3F6B9 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +70,48 @@
 				793D9A0E1CBEE11B00E3DD91 /* theme.mp3 */,
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		79C064881CCB905300F3F6B9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				79DFCB471CBA68F30099011B /* AppDelegate.swift */,
+				79A2FBA41CBA6F2300A3A553 /* GameScene.swift */,
+				79A2FBA31CBA6F2300A3A553 /* GameOverScene.swift */,
+				7914C0011CC0DBA900161A79 /* InstructionScene.swift */,
+				79DFCB631CBA699F0099011B /* NSMovingArrow.swift */,
+				793D9A1C1CBFFBF400E3DD91 /* MusicHelper.swift */,
+				79C064931CCBC90300F3F6B9 /* CustomCell.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		79C064891CCB905800F3F6B9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				79DFCB651CBA69B20099011B /* LaunchScreen.storyboard */,
+				79DFCB661CBA69B20099011B /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		79C0648A1CCB906000F3F6B9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				79A2FBA51CBA6F2300A3A553 /* GameViewController.swift */,
+				79C064861CCB903F00F3F6B9 /* LeaderboardViewController.swift */,
+				79C0648E1CCBA8E300F3F6B9 /* Swipe-Bridging-Header.h */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		79C0648B1CCBA69000F3F6B9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				79C064911CCBA94700F3F6B9 /* FBSDKLoginKit.framework */,
+				79C0648C1CCBA72300F3F6B9 /* FBSDKCoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		79DFCB3B1CBA68F30099011B = {
@@ -80,17 +133,12 @@
 		79DFCB461CBA68F30099011B /* Swipe */ = {
 			isa = PBXGroup;
 			children = (
+				79C0648B1CCBA69000F3F6B9 /* Frameworks */,
+				79C0648A1CCB906000F3F6B9 /* Controller */,
+				79C064891CCB905800F3F6B9 /* View */,
+				79C064881CCB905300F3F6B9 /* Model */,
 				793D9A131CBEE12700E3DD91 /* Sounds */,
-				79DFCB471CBA68F30099011B /* AppDelegate.swift */,
-				79A2FBA31CBA6F2300A3A553 /* GameOverScene.swift */,
-				7914C0011CC0DBA900161A79 /* InstructionScene.swift */,
-				793D9A1C1CBFFBF400E3DD91 /* MusicHelper.swift */,
-				79A2FBA41CBA6F2300A3A553 /* GameScene.swift */,
-				79A2FBA51CBA6F2300A3A553 /* GameViewController.swift */,
-				79DFCB631CBA699F0099011B /* NSMovingArrow.swift */,
 				79DFCB521CBA68F30099011B /* Assets.xcassets */,
-				79DFCB651CBA69B20099011B /* LaunchScreen.storyboard */,
-				79DFCB661CBA69B20099011B /* Main.storyboard */,
 				79DFCB571CBA68F30099011B /* Info.plist */,
 			);
 			path = Swipe;
@@ -175,8 +223,10 @@
 				7914C0021CC0DBA900161A79 /* InstructionScene.swift in Sources */,
 				79A2FBA81CBA6F2300A3A553 /* GameViewController.swift in Sources */,
 				79A2FBA61CBA6F2300A3A553 /* GameOverScene.swift in Sources */,
+				79C064941CCBC90300F3F6B9 /* CustomCell.swift in Sources */,
 				79A2FBA71CBA6F2300A3A553 /* GameScene.swift in Sources */,
 				79DFCB481CBA68F30099011B /* AppDelegate.swift in Sources */,
+				79C064871CCB903F00F3F6B9 /* LeaderboardViewController.swift in Sources */,
 				793D9A1D1CBFFBF400E3DD91 /* MusicHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,11 +321,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Swipe",
+				);
 				INFOPLIST_FILE = Swipe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shahnami.ios.swipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Swipe/Swipe-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -283,11 +340,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Swipe",
+				);
 				INFOPLIST_FILE = Swipe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shahnami.ios.swipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Swipe/Swipe-Bridging-Header.h";
 			};
 			name = Release;
 		};
