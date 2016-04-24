@@ -39,7 +39,7 @@ class GameScene: SKScene {
     let fgspeaker = SKSpriteNode(texture: SKTexture(imageNamed: "unmute.png"))
     let howToPlay = SKSpriteNode(texture: SKTexture(imageNamed: "InstructionIcon.png"))
     let leaderboardIcon = SKSpriteNode(texture: SKTexture(imageNamed: "highscore.png"))
-    
+    let title = SKSpriteNode(texture: SKTexture(imageNamed: "title.png"))
     
     let userDefaults = NSUserDefaults.standardUserDefaults()
     
@@ -322,11 +322,11 @@ class GameScene: SKScene {
         }
         
         fgspeaker.name = "fgspeaker"
-        fgspeaker.size.width = 30
-        fgspeaker.size.height = 30
+        fgspeaker.size.width = 35
+        fgspeaker.size.height = 35
         fgspeaker.zPosition = 100
         fgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
-        fgspeaker.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+10) , 40)
+        fgspeaker.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+5) , 40)
         fgspeaker.removeFromParent()
         addChild(fgspeaker)
     }
@@ -349,11 +349,11 @@ class GameScene: SKScene {
         }
         
         bgspeaker.name = "speaker"
-        bgspeaker.size.width = 30
-        bgspeaker.size.height = 30
+        bgspeaker.size.width = 35
+        bgspeaker.size.height = 35
         bgspeaker.zPosition = 100
         bgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
-        bgspeaker.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+10), 40)
+        bgspeaker.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+5), 40)
         bgspeaker.removeFromParent()
         addChild(bgspeaker)
     }
@@ -388,43 +388,43 @@ class GameScene: SKScene {
         }
         
         leaderboardIcon.name = "leaderboard"
-        leaderboardIcon.size.width = 30
-        leaderboardIcon.size.height = 30
+        leaderboardIcon.size.width = 35
+        leaderboardIcon.size.height = 35
         leaderboardIcon.anchorPoint = CGPointMake(0.5, 0.5)
         leaderboardIcon.zPosition = 100
-        leaderboardIcon.position = CGPointMake(((1/4) * self.frame.size.width) - (leaderboardIcon.size.width+10), 40)
+        leaderboardIcon.position = CGPointMake(((1/4) * self.frame.size.width) - (leaderboardIcon.size.width+5), 40)
         addChild(leaderboardIcon)
         
         howToPlay.name = "howtoplay"
-        howToPlay.size.width = 30
-        howToPlay.size.height = 30
+        howToPlay.size.width = 35
+        howToPlay.size.height = 35
         howToPlay.anchorPoint = CGPointMake(0.5, 0.5)
         howToPlay.zPosition = 100
-        howToPlay.position = CGPointMake(((2/4) * self.frame.size.width) - (howToPlay.size.width+10), 40)
+        howToPlay.position = CGPointMake(((2/4) * self.frame.size.width) - (howToPlay.size.width+5), 40)
         addChild(howToPlay)
         
         fgspeaker.name = "fgspeaker"
-        fgspeaker.size.width = 30
-        fgspeaker.size.height = 30
+        fgspeaker.size.width = 35
+        fgspeaker.size.height = 35
         fgspeaker.zPosition = 100
         fgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
-        fgspeaker.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+10) , 40)
+        fgspeaker.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+5) , 40)
         fgspeaker.removeFromParent()
         addChild(fgspeaker)
         
         bgspeaker.name = "speaker"
-        bgspeaker.size.width = 30
-        bgspeaker.size.height = 30
+        bgspeaker.size.width = 35
+        bgspeaker.size.height = 35
         bgspeaker.zPosition = 100
         bgspeaker.anchorPoint = CGPointMake(0.5, 0.5)
-        bgspeaker.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+10), 40)
+        bgspeaker.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+5), 40)
         bgspeaker.removeFromParent()
         addChild(bgspeaker)
         
         
         overlayFS = SKSpriteNode()
         overlayFS.name = "overlayFg"
-        overlayFS.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+10), 40)
+        overlayFS.position = CGPointMake(((3/4) * self.frame.size.width) - (fgspeaker.size.width+5), 40)
         overlayFS.size.width = 75
         overlayFS.size.height = 75
         overlayFS.zPosition = 99
@@ -433,7 +433,7 @@ class GameScene: SKScene {
         
         overlayBS = SKSpriteNode()
         overlayBS.name = "overlayBg"
-        overlayBS.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+10), 40)
+        overlayBS.position = CGPointMake(((4/4) * self.frame.size.width) - (bgspeaker.size.width+5), 40)
         overlayBS.size.width = 75
         overlayBS.size.height = 75
         overlayBS.zPosition = 99
@@ -442,7 +442,7 @@ class GameScene: SKScene {
         
         overlayII = SKSpriteNode()
         overlayII.name = "overlayInstructions"
-        overlayII.position = CGPointMake(((2/4) * self.frame.size.width) - (howToPlay.size.width+10), 40)
+        overlayII.position = CGPointMake(((2/4) * self.frame.size.width) - (howToPlay.size.width+5), 40)
         overlayII.size.width = 75
         overlayII.size.height = 75
         overlayII.anchorPoint = CGPointMake(0.5, 0.5)
@@ -452,7 +452,7 @@ class GameScene: SKScene {
         
         overlayLB = SKSpriteNode()
         overlayLB.name = "overlayLeaderboard"
-        overlayLB.position = CGPointMake(((1/4) * self.frame.size.width) - (leaderboardIcon.size.width+10), 40)
+        overlayLB.position = CGPointMake(((1/4) * self.frame.size.width) - (leaderboardIcon.size.width+5), 40)
         overlayLB.size.width = 75
         overlayLB.size.height = 75
         overlayLB.anchorPoint = CGPointMake(0.5, 0.5)
@@ -479,9 +479,19 @@ class GameScene: SKScene {
         
         addChild(highscoreLabel)
         
+        title.name = "title"
+        title.size.width = 192
+        title.size.height = 90
+        title.zPosition = 100
+        title.anchorPoint = CGPointMake(0.4, 0.6)
+        title.position = CGPointMake(view.center.x, view.center.y + (view.center.y / 2))
+        title.removeFromParent()
+        addChild(title)
+        
         tapToStart.text = "Tap to start"
-        tapToStart.fontSize = 40
-        tapToStart.position = CGPointMake(view.center.x, view.center.y)
+        tapToStart.color = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
+        tapToStart.fontSize = 30
+        tapToStart.position = CGPointMake(view.center.x, view.center.y - (view.center.y/4))
         tapToStart.name = "taptostart"
         addChild(tapToStart)
         
@@ -541,6 +551,7 @@ class GameScene: SKScene {
         }
         
         if(tapToStart.inParentHierarchy(self) && !didTap){
+            title.removeFromParent()
             tapToStart.removeFromParent()
             howToPlay.removeFromParent()
             fgspeaker.removeFromParent()
