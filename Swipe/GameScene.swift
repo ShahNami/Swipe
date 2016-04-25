@@ -74,6 +74,12 @@ class GameScene: SKScene {
             playSound("wrong")
             removeAllChildren()
             gameOver = true
+            if let hs = NSUserDefaults.standardUserDefaults().valueForKey("lastscore") {
+                NSUserDefaults.standardUserDefaults().setValue(currentScore, forKey: "lastscore")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            } else {
+                userDefaults.setInteger(currentScore, forKey: "lastscore")
+            }
             var c: UIColor
             if(rgbw == 1){ //red
                 c = UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1)
@@ -466,8 +472,9 @@ class GameScene: SKScene {
         backgroundColor = UIColor(red: 44/255.0, green: 62/255.0, blue: 80/255.0, alpha: 1)
         
         scoreLabel = SKLabelNode(fontNamed: "DIN Condensed")
-        scoreLabel.text = "\(currentScore)"
+        scoreLabel.text = "\(NSUserDefaults.standardUserDefaults().integerForKey("lastscore"))"
         scoreLabel.fontSize = 30
+        scoreLabel.color = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
         scoreLabel.position = CGPointMake(view.center.x / 3, self.frame.size.height - 40)
         
         addChild(scoreLabel)
@@ -475,23 +482,24 @@ class GameScene: SKScene {
         highscoreLabel = SKLabelNode(fontNamed: "DIN Condensed")
         highscoreLabel.text = "\(highscore)"
         highscoreLabel.fontSize = 30
+        highscoreLabel.color = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
         highscoreLabel.position = CGPointMake(view.center.x + (view.center.x / 3)*2, self.frame.size.height - 40)
         
         addChild(highscoreLabel)
         
         title.name = "title"
-        title.size.width = 192
-        title.size.height = 90
+        title.size.width = 150
+        title.size.height = 150
         title.zPosition = 100
-        title.anchorPoint = CGPointMake(0.4, 0.6)
-        title.position = CGPointMake(view.center.x, view.center.y + (view.center.y / 2))
+        title.anchorPoint = CGPointMake(0.5, 0.5)
+        title.position = CGPointMake(view.center.x, view.center.y + (view.center.y / 2.5))
         title.removeFromParent()
         addChild(title)
         
         tapToStart.text = "Tap to start"
         tapToStart.color = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
-        tapToStart.fontSize = 30
-        tapToStart.position = CGPointMake(view.center.x, view.center.y - (view.center.y/4))
+        tapToStart.fontSize = 35
+        tapToStart.position = CGPointMake(view.center.x, view.center.y - (view.center.y/6))
         tapToStart.name = "taptostart"
         addChild(tapToStart)
         
@@ -561,6 +569,7 @@ class GameScene: SKScene {
             overlayBS.removeFromParent()
             overlayFS.removeFromParent()
             overlayII.removeFromParent()
+            scoreLabel.text = "0"
             newArrow()
             _ =  NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(GameScene.checkCollision), userInfo: nil, repeats: true)
         }
