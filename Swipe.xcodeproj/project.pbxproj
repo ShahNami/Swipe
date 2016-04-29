@@ -24,6 +24,8 @@
 		79DFCB641CBA699F0099011B /* NSMovingArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DFCB631CBA699F0099011B /* NSMovingArrow.swift */; };
 		79DFCB671CBA69B20099011B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79DFCB651CBA69B20099011B /* LaunchScreen.storyboard */; };
 		79DFCB681CBA69B20099011B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79DFCB661CBA69B20099011B /* Main.storyboard */; };
+		79F699501CCFCC110019F97F /* FacebookManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F6994F1CCFCC110019F97F /* FacebookManager.swift */; };
+		79F699521CCFD03C0019F97F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F699511CCFD03C0019F97F /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		79DFCB631CBA699F0099011B /* NSMovingArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMovingArrow.swift; sourceTree = "<group>"; };
 		79DFCB651CBA69B20099011B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		79DFCB661CBA69B20099011B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		79F6994F1CCFCC110019F97F /* FacebookManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookManager.swift; sourceTree = "<group>"; };
+		79F699511CCFD03C0019F97F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,8 @@
 				79DFCB631CBA699F0099011B /* NSMovingArrow.swift */,
 				793D9A1C1CBFFBF400E3DD91 /* MusicHelper.swift */,
 				79C064931CCBC90300F3F6B9 /* CustomCell.swift */,
+				79F6994F1CCFCC110019F97F /* FacebookManager.swift */,
+				79F699511CCFD03C0019F97F /* User.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -226,8 +232,10 @@
 				79C064941CCBC90300F3F6B9 /* CustomCell.swift in Sources */,
 				79A2FBA71CBA6F2300A3A553 /* GameScene.swift in Sources */,
 				79DFCB481CBA68F30099011B /* AppDelegate.swift in Sources */,
+				79F699501CCFCC110019F97F /* FacebookManager.swift in Sources */,
 				79C064871CCB903F00F3F6B9 /* LeaderboardViewController.swift in Sources */,
 				793D9A1D1CBFFBF400E3DD91 /* MusicHelper.swift in Sources */,
+				79F699521CCFD03C0019F97F /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -74,7 +74,7 @@ class GameScene: SKScene {
             playSound("wrong")
             removeAllChildren()
             gameOver = true
-            if let hs = NSUserDefaults.standardUserDefaults().valueForKey("lastscore") {
+            if (NSUserDefaults.standardUserDefaults().valueForKey("lastscore") != nil) {
                 NSUserDefaults.standardUserDefaults().setValue(currentScore, forKey: "lastscore")
                 NSUserDefaults.standardUserDefaults().synchronize()
             } else {
@@ -95,9 +95,30 @@ class GameScene: SKScene {
             let reveal = SKTransition.fadeWithColor(c, duration: 0.5)
             let scene = GameOverScene(size: self.size, cs: currentScore, hs: highscore)
             self.view!.presentScene(scene, transition: reveal)
-            publishScoreToFacebook()
+            if (FBSDKAccessToken.currentAccessToken() != nil) {
+                var myScore = 0
+                let request = FBSDKGraphRequest(graphPath:"me", parameters:["fields": "scores"]);
+                request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+                    if error == nil {
+                        let object = result.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
+                        for ob in object {
+                            myScore = ob.valueForKey("score") as! Int
+                            print(myScore)
+                            if(myScore < self.highscore) {
+                                self.publishScoreToFacebook()
+                            }
+                            
+                        }
+                    } else {
+                        print("Error Getting Me \(error)");
+                    }
+                }
+                
+            }
+ 
         }
     }
+    
     
     func publishScoreToFacebook(){
         if (FBSDKAccessToken.currentAccessToken() != nil) {
