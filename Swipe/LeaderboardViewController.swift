@@ -24,6 +24,7 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     @IBOutlet weak var Indicator: UIActivityIndicatorView!
+    
     var refreshControl: UIRefreshControl!
     
     @IBOutlet weak var lblLog: UILabel!
@@ -38,7 +39,7 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         fillTable()
         lblLog.text = "Requesting permissions..."
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
             FBSDKLoginManager().logInWithPublishPermissions(["publish_actions"], fromViewController: self, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
                 if error != nil {
@@ -82,8 +83,7 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
         Indicator.stopAnimating()
         lblLog.text = ""
         refreshControl = UIRefreshControl()
-        refreshControl.backgroundColor = UIColor(red: 45, green: 63, blue: 81, alpha: 1)
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        //refreshControl.attributedTitle = NSAttributedString(string: "")
         refreshControl.addTarget(self, action: #selector(LeaderboardViewController.refresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         scoreTable.addSubview(refreshControl) // not required when using UITableViewController
         
@@ -136,9 +136,25 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
                     let request2 = FBSDKGraphRequest(graphPath:"me", parameters:["fields": "scores"]);
                     request2.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result2 : AnyObject!, error : NSError!) -> Void in
                         if error == nil {
-                            let object = result2.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
-                            for ob in object {
-                                user.setScore(ob.valueForKey("score") as! Int)
+                            if (result2.valueForKey("scores")?.valueForKey("data")) != nil {
+                                let object = result2.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
+                                for ob in object {
+                                    user.setScore(ob.valueForKey("score") as! Int)
+                                }
+                            } else {
+                                if (FBSDKAccessToken.currentAccessToken() != nil) {
+                                    let params: [NSObject : AnyObject] = ["score": "0"]
+                                    /* make the API call */
+                                    let request: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "/me/scores", parameters: params, HTTPMethod: "POST")
+                                    request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+                                        if error == nil {
+                                            print("Successfully published score!")
+                                            user.setScore(0)
+                                        } else {
+                                            print("Error Publishing Score: \(error)");
+                                        }
+                                    }
+                                }
                             }
                             self.friends.append(user)
                         } else {
@@ -196,6 +212,7 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
             }
         } else {
             print("Facebook session expired")
+            self.lblLog.text = ""
         }
     }
 
@@ -218,6 +235,7 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! CustomCell
+        cell.rankLbl.text = String(indexPath.row + 1)
         cell.nameLbl.text = (friends[indexPath.row].getCleanName())
         cell.scoreLbl.text = String(friends[indexPath.row].getScore())
         cell.profileImage.image = (friends[indexPath.row].getProfileImage())

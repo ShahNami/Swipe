@@ -99,8 +99,4 @@ class FacebookManager {
         }
         return myScore
     }
-
-    
-
-    
 }

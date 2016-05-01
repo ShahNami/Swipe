@@ -103,11 +103,9 @@ class GameScene: SKScene {
                         let object = result.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
                         for ob in object {
                             myScore = ob.valueForKey("score") as! Int
-                            print(myScore)
                             if(myScore < self.highscore) {
                                 self.publishScoreToFacebook()
                             }
-                            
                         }
                     } else {
                         print("Error Getting Me \(error)");
