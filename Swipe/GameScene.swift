@@ -100,20 +100,20 @@ class GameScene: SKScene {
                 let request = FBSDKGraphRequest(graphPath:"me", parameters:["fields": "scores"]);
                 request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
                     if error == nil {
-                        let object = result.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
-                        for ob in object {
-                            myScore = ob.valueForKey("score") as! Int
-                            if(myScore < self.highscore) {
-                                self.publishScoreToFacebook()
+                        if (result.valueForKey("scores")?.valueForKey("data")) != nil {
+                            let object = result.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
+                            for ob in object {
+                                myScore = ob.valueForKey("score") as! Int
+                                if(myScore < self.highscore) {
+                                    self.publishScoreToFacebook()
+                                }
                             }
                         }
                     } else {
                         print("Error Getting Me \(error)");
                     }
                 }
-                
             }
- 
         }
     }
     
@@ -237,7 +237,7 @@ class GameScene: SKScene {
     
     
     func calcSpeedForScore() -> Double{
-        return (currentScore >= 50) ? 1.50 : (4 - (Double(currentScore)/20))
+        return (currentScore >= 55) ? 1.25 : (4 - (Double(currentScore)/20))
     }
     
     func calculateOdds() {
@@ -617,6 +617,12 @@ class GameScene: SKScene {
         }
         
         dispatch_once(&TokenContainer.token) {
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            if userDefaults.valueForKey("highscore") != nil {
+                //
+            } else {
+                userDefaults.setInteger(0, forKey: "highscore")
+            }
             MusicHelper.sharedHelper.playBackgroundMusic()
         }
     }

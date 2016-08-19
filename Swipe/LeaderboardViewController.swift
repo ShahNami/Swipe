@@ -31,7 +31,7 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
     
     
     func configureFacebook(){
-        loginBtn.readPermissions = ["public_profile", "email", "user_friends"]
+        loginBtn.readPermissions = ["public_profile", "user_friends"]
         //loginBtn.publishPermissions = ["publish_actions"]
         loginBtn.delegate = self
     }
@@ -39,22 +39,6 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         fillTable()
         lblLog.text = "Requesting permissions..."
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            FBSDKLoginManager().logInWithPublishPermissions(["publish_actions"], fromViewController: self, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
-                if error != nil {
-                    FBSDKLoginManager().logOut()
-                } else if result.isCancelled {
-                    FBSDKLoginManager().logOut()
-                } else {
-                    self.fbToken = result.token.tokenString
-                }
-            })
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            self.Indicator.hidden = true
-            self.Indicator.stopAnimating()
-            self.lblLog.text = ""
-        }
     }
     
     func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
@@ -141,73 +125,94 @@ class LeaderboardViewController: UIViewController, UITableViewDataSource, UITabl
                                 for ob in object {
                                     user.setScore(ob.valueForKey("score") as! Int)
                                 }
-                            } else {
-                                if (FBSDKAccessToken.currentAccessToken() != nil) {
-                                    let params: [NSObject : AnyObject] = ["score": "0"]
-                                    /* make the API call */
-                                    let request: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "/me/scores", parameters: params, HTTPMethod: "POST")
-                                    request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
-                                        if error == nil {
-                                            print("Successfully published score!")
-                                            user.setScore(0)
+                            }
+                            if(!FBSDKAccessToken.currentAccessToken().hasGranted("publish_actions")) {
+                                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+                                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                                    FBSDKLoginManager().logInWithPublishPermissions(["publish_actions"], fromViewController: self, handler: { (result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
+                                        if error != nil {
+                                            FBSDKLoginManager().logOut()
+                                        } else if result.isCancelled {
+                                            FBSDKLoginManager().logOut()
                                         } else {
-                                            print("Error Publishing Score: \(error)");
+                                            //self.fbToken = result.token.tokenString
+                                            let params: [NSObject : AnyObject] = ["score": "\(NSUserDefaults.standardUserDefaults().integerForKey("highscore"))"]
+                                            /* make the API call */
+                                            if(user.getScore() < NSUserDefaults.standardUserDefaults().integerForKey("highscore")) {
+                                                let request: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "/me/scores", parameters: params, HTTPMethod: "POST")
+                                                request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+                                                    if error == nil {
+                                                        print("Successfully published score!")
+                                                        user.setScore(NSUserDefaults.standardUserDefaults().integerForKey("highscore"))
+                                                    } else {
+                                                        print("Error Publishing Score: \(error)");
+                                                    }
+                                                }
+                                            }
                                         }
-                                    }
+                                    })
+                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                    self.Indicator.hidden = true
+                                    self.Indicator.stopAnimating()
+                                    self.lblLog.text = ""
                                 }
                             }
                             self.friends.append(user)
+                            var allFriends = [String]()
+                            
+                            let friendsRequest = FBSDKGraphRequest(graphPath:"me", parameters:["fields": "friends"]);
+                            friendsRequest.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result1 : AnyObject!, error : NSError!) -> Void in
+                                if error == nil {
+                                    if (result1.valueForKey("friends") != nil) {
+                                        let friendObjects = result1.valueForKey("friends")?.valueForKey("data") as! [NSDictionary]
+                                        for friendObject in friendObjects {
+                                            let name = friendObject["name"] as! String
+                                            allFriends.append(name)
+                                        }
+                                    }
+                                } else {
+                                    print("Error Getting Friends \(error)");
+                                }
+                                
+                                let scoresRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "1132594690152165", parameters: ["fields": "scores"], HTTPMethod: "GET")
+                                scoresRequest.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result2 : AnyObject!, error : NSError!) -> Void in
+                                    if error == nil {
+                                        let scoreObjects = result2.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
+                                        for scoreObject in scoreObjects {
+                                            for friend in allFriends {
+                                                if((scoreObject.valueForKey("user")!.valueForKey("name") as? String)! == friend){
+                                                    let user = User()
+                                                    user.setFirstName(friend.componentsSeparatedByString(" ")[0])
+                                                    user.setLastName(friend.componentsSeparatedByString(" ")[friend.componentsSeparatedByString(" ").count - 1])
+                                                    user.setScore((scoreObject.valueForKey("score") as? Int)!)
+                                                    user.setId((scoreObject.valueForKey("user")!.valueForKey("id") as? String)!)
+                                                    let userID = user.getId() as NSString
+                                                    let facebookProfileUrl = NSURL(string: "https://graph.facebook.com/\(userID)/picture?type=square")
+                                                    if let data = NSData(contentsOfURL: facebookProfileUrl!) {
+                                                        user.setProfileImage(UIImage(data: data)!)
+                                                    }
+                                                    self.friends.append(user)
+                                                }
+                                            }
+                                            self.friends.sortInPlace { $0.getScore() > $1.getScore() }
+                                            self.scoreTable.reloadData()
+                                        }
+                                        self.scoreTable.reloadData()
+                                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                                        self.Indicator.hidden = true
+                                        self.Indicator.stopAnimating()
+                                        self.lblLog.text = ""
+                                    } else {
+                                        print("Error Fetching Score: \(error)");
+                                    }
+                                }
+                            }
                         } else {
                             print("Error1 \(error)");
                         }
                     }
                 } else {
                     print("Error2 \(error)");
-                }
-            }
-            
-            
-            let friendsRequest = FBSDKGraphRequest(graphPath:"me", parameters:["fields": "friends"]);
-            friendsRequest.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result1 : AnyObject!, error : NSError!) -> Void in
-                if error == nil {
-                    if (result1.valueForKey("friends") != nil) {
-                        let friendObjects = result1.valueForKey("friends")?.valueForKey("data") as! [NSDictionary]
-                        for friendObject in friendObjects {
-                            let name = friendObject["name"] as! String
-                            let scoresRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "1132594690152165", parameters: ["fields": "scores"], HTTPMethod: "GET")
-                            scoresRequest.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result2 : AnyObject!, error : NSError!) -> Void in
-                                if error == nil {
-                                    let scoreObjects = result2.valueForKey("scores")?.valueForKey("data") as! [NSDictionary]
-                                    for scoreObject in scoreObjects {
-                                        if((scoreObject.valueForKey("user")!.valueForKey("name") as? String)! == name){
-                                            let user = User()
-                                            user.setFirstName(name.componentsSeparatedByString(" ")[0])
-                                            user.setLastName(name.componentsSeparatedByString(" ")[name.componentsSeparatedByString(" ").count - 1])
-                                            user.setScore((scoreObject.valueForKey("score") as? Int)!)
-                                            user.setId((scoreObject.valueForKey("user")!.valueForKey("id") as? String)!)
-                                            let userID = user.getId() as NSString
-                                            let facebookProfileUrl = NSURL(string: "https://graph.facebook.com/\(userID)/picture?type=square")
-                                            if let data = NSData(contentsOfURL: facebookProfileUrl!) {
-                                                user.setProfileImage(UIImage(data: data)!)
-                                            }
-                                            self.friends.append(user)
-                                        }
-                                        self.friends.sortInPlace { $0.getScore() > $1.getScore() }
-                                        self.scoreTable.reloadData()
-                                    }
-                                    self.scoreTable.reloadData()
-                                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-                                    self.Indicator.hidden = true
-                                    self.Indicator.stopAnimating()
-                                    self.lblLog.text = ""
-                                } else {
-                                    print("Error Fetching Score: \(error)");
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    print("Error Getting Friends \(error)");
                 }
             }
         } else {
