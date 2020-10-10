@@ -26,30 +26,30 @@ class GameOverScene: SKScene {
         let label = SKLabelNode(fontNamed: "DIN Condensed")
         label.text = "Game over"
         label.fontSize = 50
-        label.fontColor = SKColor.whiteColor()
-        label.position = CGPointMake(self.size.width/2, self.size.height/2)
+        label.fontColor = SKColor.white
+        label.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         self.addChild(label)
         
         let score = SKLabelNode(fontNamed: "DIN Condensed")
         score.text = "\(cs)"
         score.fontSize = 45
-        score.fontColor = SKColor.whiteColor()
-        score.position = CGPointMake(self.size.width/2, self.size.height/3) //CGPointMake(self.size.width/2, self.size.height - 150)
+        score.fontColor = SKColor.white
+        score.position = CGPoint(x: self.size.width/2, y: self.size.height/3) //CGPointMake(self.size.width/2, self.size.height - 150)
         self.addChild(score)
         
         let highscore = SKLabelNode(fontNamed: "DIN Condensed")
         highscore.text = "\(hs)"
         highscore.fontSize = 30
-        highscore.fontColor = SKColor.whiteColor()
-        highscore.position = CGPointMake(self.size.width/2, self.size.height/4)
+        highscore.fontColor = SKColor.white
+        highscore.position = CGPoint(x: self.size.width/2, y: self.size.height/4)
         self.addChild(highscore)
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let reveal : SKTransition = SKTransition.fadeWithColor(UIColor(red: 44/255, green: 62/255, blue: 80/255, alpha: 1), duration: 0.5)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let reveal : SKTransition = SKTransition.fade(with: UIColor(red: 44/255, green: 62/255, blue: 80/255, alpha: 1), duration: 0.5)
         let scene = GameScene(size: self.view!.bounds.size)
-        scene.scaleMode = .AspectFill
+        scene.scaleMode = .aspectFill
         self.view?.presentScene(scene, transition: reveal)
     }
     

@@ -18,28 +18,16 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let skView = view as! SKView
-        skView.multipleTouchEnabled = false
+        skView.isMultipleTouchEnabled = false
         
         scene = GameScene(size: skView.bounds.size)
-        scene.scaleMode = .AspectFill
+        scene.scaleMode = .aspectFill
         skView.presentScene(scene)
         
-    }
-
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
-        } else {
-            return .All
-        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
-    }
-
-    override func prefersStatusBarHidden() -> Bool {
-        return true
     }
 }

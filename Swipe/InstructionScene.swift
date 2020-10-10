@@ -15,35 +15,35 @@ class InstructionScene: SKScene {
         backgroundColor = UIColor(red: 44/255.0, green: 62/255.0, blue: 80/255.0, alpha: 1)
     
         var instruction = SKSpriteNode(texture: SKTexture(imageNamed: "WhiteSwipe.png"))
-        instruction.position = CGPointMake(self.size.width/2 - (self.size.width/6)*2, self.size.height - (self.size.height/6))
+        instruction.position = CGPoint(x: self.size.width/2 - (self.size.width/6)*2, y: self.size.height - (self.size.height/6))
         instruction.size.width = 75
         instruction.size.height = 75
         instruction.zPosition = 100
         addChild(instruction)
         
         instruction = SKSpriteNode(texture: SKTexture(imageNamed: "RedSwipe.png"))
-        instruction.position = CGPointMake(self.size.width - (self.size.width/6), (self.size.height / 2) + (self.size.height/6))
+        instruction.position = CGPoint(x: self.size.width - (self.size.width/6), y: (self.size.height / 2) + (self.size.height/6))
         instruction.size.width = 75
         instruction.size.height = 75
         instruction.zPosition = 100
         addChild(instruction)
         
         instruction = SKSpriteNode(texture: SKTexture(imageNamed: "BlueSwipe.png"))
-        instruction.position = CGPointMake(self.size.width/2 - (self.size.width/6)*2, self.size.height/2)
+        instruction.position = CGPoint(x: self.size.width/2 - (self.size.width/6)*2, y: self.size.height/2)
         instruction.size.width = 75
         instruction.size.height = 75
         instruction.zPosition = 100
         addChild(instruction)
         
         instruction = SKSpriteNode(texture: SKTexture(imageNamed: "GreenSwipe.png"))
-        instruction.position = CGPointMake(self.size.width - (self.size.width/6), (self.size.height / 2) - (self.size.height/6))
+        instruction.position = CGPoint(x: self.size.width - (self.size.width/6), y: (self.size.height / 2) - (self.size.height/6))
         instruction.size.width = 75
         instruction.size.height = 75
         instruction.zPosition = 100
         addChild(instruction)
         
         instruction = SKSpriteNode(texture: SKTexture(imageNamed: "GraySwipe.png"))
-        instruction.position = CGPointMake(self.size.width/2 - (self.size.width/6)*2, self.size.height/2 - (self.size.height/6)*2)
+        instruction.position = CGPoint(x: self.size.width/2 - (self.size.width/6)*2, y: self.size.height/2 - (self.size.height/6)*2)
         instruction.size.width = 75
         instruction.size.height = 75
         instruction.zPosition = 100
@@ -53,43 +53,43 @@ class InstructionScene: SKScene {
         label.text = "Swipe the direction the arrow points"
         label.fontSize = 15
         label.fontColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
-        label.position = CGPointMake(self.size.width/2 + self.size.width/10, self.size.height - (self.size.height/6) - 10)
+        label.position = CGPoint(x: self.size.width/2 + self.size.width/10, y: self.size.height - (self.size.height/6) - 10)
         self.addChild(label)
         
         label = SKLabelNode(fontNamed: "DIN Condensed")
         label.text = "Swipe the opposite direction the arrow points"
         label.fontSize = 15
         label.fontColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
-        label.position = CGPointMake(self.size.width/2 - self.size.width/10, (self.size.height / 2) + (self.size.height/6)  - 10)
+        label.position = CGPoint(x: self.size.width/2 - self.size.width/10, y: (self.size.height / 2) + (self.size.height/6)  - 10)
         self.addChild(label)
         
         label = SKLabelNode(fontNamed: "DIN Condensed")
         label.text = "Swipe the direction the arrow moves"
         label.fontSize = 15
         label.fontColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
-        label.position = CGPointMake(self.size.width/2 + self.size.width/10, self.size.height/2  - 10)
+        label.position = CGPoint(x: self.size.width/2 + self.size.width/10, y: self.size.height/2  - 10)
         self.addChild(label)
         
         label = SKLabelNode(fontNamed: "DIN Condensed")
         label.text = "Swipe the opposite direction the arrow moves"
         label.fontSize = 15
         label.fontColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
-        label.position = CGPointMake(self.size.width/2 - self.size.width/10, (self.size.height / 2) - (self.size.height/6)  - 10)
+        label.position = CGPoint(x: self.size.width/2 - self.size.width/10, y: (self.size.height / 2) - (self.size.height/6)  - 10)
         self.addChild(label)
         
         label = SKLabelNode(fontNamed: "DIN Condensed")
         label.text = "Do not swipe when you see this arrow"
         label.fontSize = 15
         label.fontColor = UIColor(red: 236/255, green: 240/255, blue: 241/255, alpha: 1)
-        label.position = CGPointMake(self.size.width/2 + self.size.width/10, self.size.height/2 - (self.size.height/6)*2  - 10)
+        label.position = CGPoint(x: self.size.width/2 + self.size.width/10, y: self.size.height/2 - (self.size.height/6)*2  - 10)
         self.addChild(label)
         
     }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        let reveal : SKTransition = SKTransition.flipVerticalWithDuration(0.5)
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let reveal : SKTransition = SKTransition.flipVertical(withDuration: 0.5)
         let scene = GameScene(size: self.view!.bounds.size)
-        scene.scaleMode = .AspectFill
+        scene.scaleMode = .aspectFill
         self.view?.presentScene(scene, transition: reveal)
     }
     

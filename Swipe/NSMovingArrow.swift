@@ -12,8 +12,8 @@ import SpriteKit
 class NSMovingArrow: SKSpriteNode {
     
     init(size: CGSize, sprite: SKTexture, rgbw: Int) {
-        super.init(texture: sprite, color: UIColor.clearColor(), size: CGSizeMake(size.width, size.height))
-        anchorPoint = CGPointMake(0.5, 0.5)
+        super.init(texture: sprite, color: UIColor.clear, size: CGSize(width: size.width, height: size.height))
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
         if(rgbw == 1){
             color = UIColor(red: 231/255, green: 76/255, blue: 60/255, alpha: 1)
             colorBlendFactor = 1.0
@@ -43,29 +43,29 @@ class NSMovingArrow: SKSpriteNode {
         
         switch(direction){
         case 0: //Up
-            moveDir = SKAction.moveToY((maxY+30) - self.position.y, duration: duration)
-            resetPosition = SKAction.moveToY(-50, duration: 0)
+            moveDir = SKAction.moveTo(y: (maxY+30) - self.position.y, duration: duration)
+            resetPosition = SKAction.moveTo(y: -50, duration: 0)
             break;
         case 1: //Right
-            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration)
-            resetPosition = SKAction.moveToX(-50, duration: 0)
+            moveDir = SKAction.moveTo(x: (maxX+30) - self.position.x, duration: duration)
+            resetPosition = SKAction.moveTo(x: -50, duration: 0)
             break;
         case 2: //Left
-            moveDir = SKAction.moveToX(-(maxX+30) + self.position.x, duration: duration)
-            resetPosition = SKAction.moveToX(CGFloat(maxX)+50, duration: 0)
+            moveDir = SKAction.moveTo(x: -(maxX+30) + self.position.x, duration: duration)
+            resetPosition = SKAction.moveTo(x: CGFloat(maxX)+50, duration: 0)
             break;
         case 3: //Down
-            moveDir = SKAction.moveToY(-(maxY+30) + self.position.y, duration: duration)
-            resetPosition = SKAction.moveToY(CGFloat(maxY)+50, duration: 0)
+            moveDir = SKAction.moveTo(y: -(maxY+30) + self.position.y, duration: duration)
+            resetPosition = SKAction.moveTo(y: CGFloat(maxY)+50, duration: 0)
             break;
         default: //Right
-            moveDir = SKAction.moveToX((maxX+30) - self.position.x, duration: duration)
-            resetPosition = SKAction.moveToX(-50, duration: 0)
+            moveDir = SKAction.moveTo(x: (maxX+30) - self.position.x, duration: duration)
+            resetPosition = SKAction.moveTo(x: -50, duration: 0)
             break;
         }
         
         
         let moveSequence = SKAction.sequence([moveDir, resetPosition])
-        runAction(SKAction.repeatActionForever(moveSequence))
+        run(SKAction.repeatForever(moveSequence))
     }
 }

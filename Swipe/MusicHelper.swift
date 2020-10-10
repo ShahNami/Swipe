@@ -14,9 +14,9 @@ class MusicHelper {
     var audioPlayer: AVAudioPlayer?
     
     func playBackgroundMusic() {
-        let aSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("theme", ofType: "mp3")!)
+        let aSound = NSURL(fileURLWithPath: Bundle.main.path(forResource: "theme", ofType: "mp3")!)
         do {
-            audioPlayer = try AVAudioPlayer(contentsOfURL:aSound)
+            audioPlayer = try AVAudioPlayer(contentsOf:aSound as URL)
             audioPlayer!.numberOfLoops = -1
             audioPlayer!.volume = 0.05
             audioPlayer!.prepareToPlay()
